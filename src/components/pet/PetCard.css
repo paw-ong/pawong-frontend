@@ -13,6 +13,7 @@
   align-items: center;
   margin: 0;
   cursor: pointer;
+  position: relative;
 }
 
 .card:hover {
@@ -43,6 +44,44 @@
   object-position: center;
 }
 
+.favorite-btn {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background-color: rgba(255, 255, 255, 0.7);
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.3s ease;
+  padding: 0;
+  outline: none;
+}
+
+.favorite-btn:hover {
+  transform: scale(1.1);
+}
+
+.favorite-btn:active {
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+.favorite-btn:focus {
+  outline: none;
+  border: none;
+}
+
+.favorite-icon {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+}
+
 .card-content {
   padding: 15px;
   flex-grow: 1;
@@ -53,7 +92,7 @@
   width: 100%;
 }
 
-.pet-upKindNm, .pet-neuterYn, .pet-sexCd {
+.pet-upKindNm, .pet-sexCd, .pet-age {
   font-size: 14px;
   margin: 4px 0;
   text-align: center;
@@ -70,7 +109,7 @@
 }
 
 .card:hover .pet-upKindNm,
-.card:hover .pet-neuterYn,
-.card:hover .pet-sexCd {
+.card:hover .pet-sexCd,
+.card:hover .pet-age {
   color: #A79277
 }

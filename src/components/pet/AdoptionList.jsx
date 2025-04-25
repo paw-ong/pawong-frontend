@@ -31,29 +31,29 @@ function AdoptionList() {
         {
           id: 1,
           upKindNm : '토끼',
-          neuterYn : '예',
           sexCd: '암컷',
+          age: '2021년생',
           imgUrl: userImage
         },
       {
         id: 2,
         upKindNm : '토끼',
-        neuterYn : '예',
         sexCd: '암컷',
+        age: '2021년생',
         imgUrl: userImage
       },
       {
         id: 3,
         upKindNm : '토끼',
-        neuterYn : '예',
         sexCd: '암컷',
+        age: '2021년생',
         imgUrl: userImage
       },
       {
         id: 4,
         upKindNm : '토끼',
-        neuterYn : '예',
         sexCd: '암컷',
+        age: '2021년생',
         imgUrl: userImage
       }
     ];
@@ -63,7 +63,7 @@ function AdoptionList() {
 
   return (
       <section className="adoption-section">
-        <h2 className="section-title">입양 추천 리스트</h2>
+        <h2 className="section-title">입양을 기다리고 있어요!</h2>
         <div className="card-container">
           {pets.map(pet => (
               <PetCard key={pet.id} pet={pet} type="adoption" />

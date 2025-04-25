@@ -7,11 +7,3 @@
   display: flex;
   flex-direction: column;
 }
-
-.lists-container {
-  max-width: 900px;
-  margin: 0 auto;
-  background-color: #FFF2E1;
-  border-radius: 10px;
-  padding-bottom: 20px;
-}

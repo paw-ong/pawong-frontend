@@ -31,29 +31,29 @@ function LostAnimalList() {
       {
         id: 1,
         upKindNm : '토끼',
-        neuterYn : '예',
         sexCd: '암컷',
+        age: '2021년생',
         imgUrl: userImage
       },
       {
         id: 2,
         upKindNm : '토끼',
-        neuterYn : '예',
         sexCd: '암컷',
+        age: '2021년생',
         imgUrl: userImage
       },
       {
         id: 3,
         upKindNm : '토끼',
-        neuterYn : '예',
         sexCd: '암컷',
+        age: '2021년생',
         imgUrl: userImage
       },
       {
         id: 4,
         upKindNm : '토끼',
-        neuterYn : '예',
         sexCd: '암컷',
+        age: '2021년생',
         imgUrl: userImage
       }
     ];
@@ -62,7 +62,8 @@ function LostAnimalList() {
 
   return (
       <section className="lost-animal-section">
-        <h2 className="section-title">실종 동물 리스트</h2>
+        <h2 className="section-title">실종 공고</h2>
+        <p className="sub-title">아래 동물을 보시면 연락주세요!</p>
         <div className="card-container">
           {pets.map(pet => (
               <PetCard key={pet.id} pet={pet} type={"lostAnimal"} />
