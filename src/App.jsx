@@ -4,6 +4,7 @@ import Layout from "./components/layout/Layout.jsx";
 import Adoption from "./pages/Adoption.jsx";
 import LostAnimal from "./pages/LostAnimal.jsx";
 import MainPage from "./pages/MainPage.jsx";
+import Login from "./pages/Login.jsx";
 import MyPage from "./pages/MyPage.jsx";
 import AdoptionDetail from "./pages/AdoptionDetail.jsx";
 import LostAnimalDetail from "./pages/LostAnimalDetail.jsx";
@@ -19,6 +20,7 @@ function App() {
             <Route path="adoption/detail/:id" element={<AdoptionDetail />} />
             <Route path="lostAnimal" element={<LostAnimal />} />
             <Route path="lostAnimal/detail/:id" element={<LostAnimalDetail />} />
+            <Route path="login" element={<Login />} />
             <Route path="myPage" element={<MyPage />} />
           </Route>
         </Routes>

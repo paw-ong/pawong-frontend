@@ -9,16 +9,14 @@ html, body {
   margin: 0;
   padding: 0;
   color: #3E3232;
-  background: #FFF2E1;
 }
 
 .layout {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: 100dvh;
   width: 100%;
   overflow-x: hidden;
-  background: #FFF2E1;
 }
 
 .main-content {
@@ -27,4 +25,11 @@ html, body {
   display: flex;
   flex-direction: column;
   padding: 0;
+}
+
+.content-container {
+  max-width: 900px;
+  margin: 0 auto;
+  border-radius: 10px;
+  width: 100%;
 }
