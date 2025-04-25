@@ -1,14 +1,34 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {Link, NavLink, useNavigate} from 'react-router-dom'
 import './Header.css';
-import logo from '../../assets/images/logo/pawong.png';
+import logo from '../../assets/images/logo/logo.png';
+import defaultUserImage from '../../assets/images/user.jpg'
 
 function Header() {
   const navigate = useNavigate();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userImage, setUserImage] = useState(defaultUserImage);
+
+  useEffect(() => {
+    const userToken = localStorage.getItem('userToken');
+    const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+
+    setIsLoggedIn(!!userToken);
+
+    if (userInfo && userInfo.profileImage) {
+      setUserImage(userInfo.profileImage);
+    } else {
+      setUserImage(defaultUserImage);
+    }
+  }, []);
 
   const handleUserClick = () => {
-    navigate('/mypage');
-  }
+    if (isLoggedIn) {
+      navigate('/mypage');
+    } else {
+      navigate('/login');
+    }
+  };
 
   return (
       <header className="header">
@@ -31,7 +51,7 @@ function Header() {
           </ul>
         </nav>
         <div className="user" onClick={handleUserClick}>
-          <img src="/src/assets/images/user.jpg" alt="user-img" className="user-img"/>
+          <img src={userImage} alt="user-img" className="user-img"/>
         </div>
       </header>
   );

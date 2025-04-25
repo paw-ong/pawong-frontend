@@ -3,66 +3,100 @@
   top: 0;
   left: 0;
   width: 100%;
-  background-color: #EAD8C0;
   z-index: 1000;
   display: flex;
   align-items: center;
   padding: 8px 15px;
-  border-bottom: 1px solid #D1BB9E;
   gap: 40px;
-  height: 60px;
+  height: 80px;
 }
 
 .logo-container {
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
 }
 
 .logo {
-  width: 40px;
-  height: auto;
+  width: auto;
+  height: 50px;
   display: block;
+  margin-left: 30px;
 }
 
 .main-nav {
   flex-grow: 1;
+  display: flex;
+  align-items: center;
+  height: 100%;
 }
 
 .nav-tabs {
   display: flex;
   list-style: none;
   gap: 30px;
+  height: 100%;
+  align-items: center;
+  pointer-events: none;
 }
 
 .tab-item {
   position: relative;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  pointer-events: auto;
 }
 
 .tab-item a {
   text-decoration: none;
-  color: #3E3232 ;
-  font-size: 1.2rem;
-  padding: 10px 20px;
-  display: block;
-
+  color: #3E3232;
+  font-size: 1.8rem;
+  font-weight: 600;
+  padding: 10px 40px;
+  display: flex;
+  align-items: center;
+  height: 50px;
+  transition: opacity 0.3s ease, font-weight 0.3s ease, font-size 0.3s ease;
+  opacity: 1;
 }
 
-.tab-item a:hover {
-  color: #FFF2E1;
-}
-
-.tab-item a.active {
-  font-weight: bold;
-  color: #FFF2E1;
-  background-color: #A79277;
+.tab-item a:active {
+  font-weight: 800;
+  color: #3E3232;
   border-radius: 10px;
+  transform: scale(1.1);
+}
+
+/* 핵심: 부모에 hover 이벤트가 발생했을 때 모든 자식 요소 연하게 설정 */
+.nav-tabs:hover .tab-item a {
+  opacity: 0.5;
+}
+
+/* 핵심: hover 상태인 탭 아이템은 완전히 불투명하게 유지 */
+.nav-tabs:hover .tab-item:hover a {
+  opacity: 1;
+}
+
+/* active 상태인 탭 아이템도 완전히 불투명하게 유지 */
+.nav-tabs:hover .tab-item a.active {
+  opacity: 1;
+}
+
+/* active 상태일 때 다른 항목들 연하게 */
+.nav-tabs:has(.tab-item a.active) .tab-item a:not(.active) {
+  opacity: 0.5;
 }
 
 .user {
-  width: 40px;
-  height: 40px;
+  width: 62px;
+  height: 62px;
   border-radius: 50%;
   overflow: hidden;
   margin-left: auto;
+  margin-right: 30px;
   cursor: pointer;
   transition: transform 0.2s ease;
 }
