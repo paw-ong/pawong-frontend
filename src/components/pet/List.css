@@ -1,0 +1,30 @@
+.section-title {
+  font-size: 24px;
+  color: #3E3232;
+  margin: 30px 0 20px;
+  text-align: left;
+  padding-left: 20px;
+  font-weight: bold;
+}
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
+  margin: 0 auto;
+  max-width: 1400px;
+  padding: 0 40px;
+  box-sizing: border-box;
+}
+
+.adoption-section, .lost-animal-section {
+  margin-bottom: 30px;
+}
+
+@media (max-width: 768px) {
+  .card-container {
+    gap: 15px;
+  }
+}
