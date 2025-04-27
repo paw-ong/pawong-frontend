@@ -1,0 +1,44 @@
+.section-title {
+  font-size: 24px;
+  color: #3E3232;
+  text-align: left;
+  padding-left: 20px;
+  font-weight: bold;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
+  margin: 0 auto;
+  max-width: 1400px;
+  padding: 0 40px;
+  box-sizing: border-box;
+}
+
+.adoption-section {
+  margin-top: 0;
+  margin-bottom: 30px;
+}
+
+.lost-animal-section {
+  margin-bottom: 30px;
+}
+
+@media (max-width: 768px) {
+  .card-container {
+    gap: 15px;
+  }
+}
+
+.sub-title {
+  font-size: 18px;
+  color: #3E3232;
+  margin: -15px 0 20px;
+  text-align: left;
+  padding-left: 22px;
+}
