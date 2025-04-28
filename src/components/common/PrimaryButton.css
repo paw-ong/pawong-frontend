@@ -1,5 +1,5 @@
 .primary-btn {
-  background: #F0803C;
+  background: #E86831;
   color: #fff;
   border: none;
   border-radius: 10px;
@@ -10,5 +10,5 @@
   transition: background 0.2s;
 }
 .primary-btn:hover {
-  background: #d96a1c;
+  background: rgb(197, 92, 17);
 } 
