@@ -17,7 +17,14 @@
   justify-content: center;
 }
 
-.adoption-result-loading,
+.adoption-result-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+  width: 100%;
+}
+
 .adoption-result-empty {
   text-align: center;
   padding: 40px 20px;

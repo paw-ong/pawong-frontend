@@ -1,11 +1,21 @@
 import React from "react";
 import PropTypes from 'prop-types';
 import PetCard from "./PetCard";
+import LoadingSpinner from "../common/LoadingSpinner";
 import "./AdoptionResultList.css";
 
 function AdoptionResultList({ results, loading }) {
-  if (loading) return <div className="adoption-result-loading">검색 중...</div>;
-  if (!results || results.length === 0) return <div className="adoption-result-empty">검색 결과가 없습니다.</div>;
+  if (loading) {
+    return (
+      <div className="adoption-result-loading">
+        <LoadingSpinner />
+      </div>
+    );
+  }
+  
+  if (!results || results.length === 0) {
+    return <div className="adoption-result-empty">검색 결과가 없습니다.</div>;
+  }
 
   // API 응답을 PetCard 형식에 맞게 변환
   const formatPetData = (item) => {
