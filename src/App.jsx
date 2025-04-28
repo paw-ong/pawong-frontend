@@ -8,6 +8,9 @@ import Login from "./pages/Login.jsx";
 import MyPage from "./pages/MyPage.jsx";
 import AdoptionDetail from "./pages/AdoptionDetail.jsx";
 import LostAnimalDetail from "./pages/LostAnimalDetail.jsx";
+import OAuthRedirectHandler from "./components/auth/OAuthRedirectHandler.jsx";
+import AdditionalInfo from "./pages/AdditionalInfo.jsx";
+import { AuthContext } from "./contexts/AuthContext";
 
 function App() {
   return (
@@ -20,6 +23,7 @@ function App() {
             <Route path="adoption/detail/:id" element={<AdoptionDetail />} />
             <Route path="lostAnimal" element={<LostAnimal />} />
             <Route path="lostAnimal/detail/:id" element={<LostAnimalDetail />} />
+      <Route path="oauth2/redirect" element={<OAuthRedirectHandler />} />
             <Route path="login" element={<Login />} />
             <Route path="myPage" element={<MyPage />} />
           </Route>
