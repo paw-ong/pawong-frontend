@@ -31,7 +31,7 @@ function Adoption() {
       const res = await fetch(url);
       if (!res.ok) throw new Error("검색 실패");
       const data = await res.json();
-      setResults(data.results || []); // 실제 데이터 구조에 맞게 수정 필요
+      setResults(data.adoptionSearchResponses || []); // adoptionSearchResponses 배열을 results로 설정
     } catch (e) {
       alert("검색 중 오류 발생");
       setResults([]);

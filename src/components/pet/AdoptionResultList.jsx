@@ -1,25 +1,52 @@
 import React from "react";
+import PropTypes from 'prop-types';
+import PetCard from "./PetCard";
+import "./AdoptionResultList.css";
 
 function AdoptionResultList({ results, loading }) {
-  if (loading) return <div style={{textAlign: 'center', margin: '32px 0'}}>검색 중...</div>;
-  if (!results || results.length === 0) return <div style={{textAlign: 'center', margin: '32px 0'}}>검색 결과가 없습니다.</div>;
+  if (loading) return <div className="adoption-result-loading">검색 중...</div>;
+  if (!results || results.length === 0) return <div className="adoption-result-empty">검색 결과가 없습니다.</div>;
+
+  // API 응답을 PetCard 형식에 맞게 변환
+  const formatPetData = (item) => {
+    // 나이 계산 (YYYY 형식을 "N살" 형식으로 변환)
+    const currentYear = new Date().getFullYear();
+    const ageInYears = item.age ? currentYear - item.age : null;
+    const ageString = ageInYears ? `${ageInYears}살` : '나이 미상';
+
+    return {
+      id: item.adoptionId,
+      imgUrl: item.popfile1, // API에서 제공하는 이미지 URL 사용
+      upKindNm: item.kindNm || '기타',
+      sexCd: item.sexCd === 'M' ? '수컷' : item.sexCd === 'F' ? '암컷' : '미상',
+      age: ageString,
+      neuterYn: item.neuterYn === 'Y' ? '중성화 O' : item.neuterYn === 'N' ? '중성화 X' : '중성화 미상'
+    };
+  };
 
   return (
-    <div style={{width: '100%', maxWidth: 1100, margin: '0 auto', padding: '0 16px'}}>
-      <ul style={{listStyle: 'none', padding: 0}}>
-        {results.map((item, idx) => (
-          <li key={item.id || idx} style={{marginBottom: 16, background: '#fff', borderRadius: 12, boxShadow: '0 2px 8px rgba(167,146,119,0.08)', padding: 20}}>
-            {/* 실제 데이터 구조에 맞게 아래를 수정하세요 */}
-            <div><b>이름:</b> {item.name || '이름 없음'}</div>
-            <div><b>품종:</b> {item.upKindCd || '-'}</div>
-            <div><b>성별:</b> {item.sexCd || '-'}</div>
-            <div><b>중성화:</b> {item.neuterYn || '-'}</div>
-            {/* 필요시 더 많은 정보 추가 */}
-          </li>
+    <div className="adoption-result-container">
+      <div className="adoption-result-grid">
+        {results.map((item) => (
+          <div key={item.adoptionId} className="adoption-result-item">
+            <PetCard pet={formatPetData(item)} type="adoption" />
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 }
+
+AdoptionResultList.propTypes = {
+  results: PropTypes.arrayOf(PropTypes.shape({
+    adoptionId: PropTypes.number,
+    popfile1: PropTypes.string,
+    kindNm: PropTypes.string,
+    sexCd: PropTypes.string,
+    age: PropTypes.number,
+    neuterYn: PropTypes.string
+  })),
+  loading: PropTypes.bool
+};
 
 export default AdoptionResultList; 

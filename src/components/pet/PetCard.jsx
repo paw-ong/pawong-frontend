@@ -64,27 +64,29 @@ function PetCard({ pet, type }) {
   };
 
   return (
-      <Link to={`/${type}/detail/${pet.id}`} className="card-link">
-        <div className="card">
-          <div className="card-img-container">
-            <img src={pet.imgUrl} alt={pet.name || '동물 사진'} className="card-img"/>
-            {/*{isLoggedIn && (*/}
-              <button className={`favorite-btn ${isFavorite ? 'active' : ''}`} onClick={handleFavoriteClick}>
-              <img src={isFavorite ? likeImg : unlikeImg}
-                   alt={isFavorite ? "찜 해제" : "찜 하기"}
-                   className="favorite-icon"
-              />
-              </button>
-            {/*)}*/}
-          </div>
-          <div className="card-content">
-            <p className="pet-upKindNm">{pet.upKindNm || '정보 없음'}</p>
-            <p className="pet-sexCd">{pet.sexCd || '정보 없음'}</p>
-            <p className="pet-age">{pet.age || '정보 없음'}</p>
-          </div>
+    <Link to={`/${type}/detail/${pet.id}`} className="card-link">
+      <div className="card">
+        <div className="card-img-container">
+          <img src={pet.imgUrl} alt={pet.name || '동물 사진'} className="card-img"/>
+          <button className={`favorite-btn ${isFavorite ? 'active' : ''}`} onClick={handleFavoriteClick}>
+            <img src={isFavorite ? likeImg : unlikeImg}
+                 alt={isFavorite ? "찜 해제" : "찜 하기"}
+                 className="favorite-icon"
+            />
+          </button>
         </div>
-      </Link>
-  )
+        <div className="card-content">
+          <p className="pet-upKindNm">{pet.upKindNm || '정보 없음'}</p>
+          <div className="pet-info-row">
+            <span className="pet-sexCd">{pet.sexCd || '정보 없음'}</span>
+            <span className="info-divider">•</span>
+            <span className="pet-age">{pet.age || '정보 없음'}</span>
+          </div>
+          <p className="pet-neuterYn">{pet.neuterYn || '중성화 정보 없음'}</p>
+        </div>
+      </div>
+    </Link>
+  );
 }
 
 export default PetCard;

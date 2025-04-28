@@ -1,0 +1,31 @@
+.adoption-result-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.adoption-result-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  padding: 20px 0;
+}
+
+.adoption-result-item {
+  display: flex;
+  justify-content: center;
+}
+
+.adoption-result-loading,
+.adoption-result-empty {
+  text-align: center;
+  padding: 40px 20px;
+  font-size: 1.2em;
+  color: #666;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(167, 146, 119, 0.1);
+  margin: 20px auto;
+  max-width: 400px;
+} 
