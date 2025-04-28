@@ -14,14 +14,10 @@ function Adoption() {
     try {
       const urlParams = new URLSearchParams();
       params.selectedKinds.forEach((kind) => urlParams.append("upKindCds", kind));
-      if (params.sex === "ALL") {
-        ["M", "F", "Q"].forEach((s) => urlParams.append("sexCd", s));
-      } else {
+      if (params.sex) {
         urlParams.append("sexCd", params.sex);
       }
-      if (params.neuter === "ALL") {
-        ["Y", "N", "U"].forEach((n) => urlParams.append("neuterYn", n));
-      } else {
+      if (params.neuter) {
         urlParams.append("neuterYn", params.neuter);
       }
       if (params.searchTerm && params.searchTerm.trim()) {

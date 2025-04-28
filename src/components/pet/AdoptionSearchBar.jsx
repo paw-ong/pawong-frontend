@@ -43,8 +43,8 @@ function AdoptionSearchBar({ onSearch }) {
     }
     onSearch({
       selectedKinds,
-      sex,
-      neuter,
+      sex: sex === "ALL" ? undefined : sex,
+      neuter: neuter === "ALL" ? undefined : neuter,
       searchTerm,
     });
   };
@@ -53,19 +53,19 @@ function AdoptionSearchBar({ onSearch }) {
     <div className="adoption-search-bar-wrapper">
       <div className="adoption-search-bar">
         <div className="filter-row">
-          <div className="filter-group">
-            <label className="filter-label">품종</label>
-            {KIND_MAP.map((k) => (
-              <label key={k.value}>
-                <input
-                  type="checkbox"
-                  checked={selectedKinds.includes(k.value)}
-                  onChange={() => handleKindChange(k.value)}
-                />
-                {k.label}
-              </label>
-            ))}
-          </div>
+            <div className="filter-group">
+                <label className="filter-label">품종</label>
+                {KIND_MAP.map(k => (
+                    <label key={k.value} className="checkbox-label">
+                    <input
+                        type="checkbox"
+                        checked={selectedKinds.includes(k.value)}
+                        onChange={() => handleKindChange(k.value)}
+                    />
+                    <span>{k.label}</span>
+                    </label>
+                ))}
+            </div>
           <div className="filter-group">
             <label className="filter-label">성별</label>
             <select value={sex} onChange={e => setSex(e.target.value)}>
@@ -91,6 +91,7 @@ function AdoptionSearchBar({ onSearch }) {
             placeholder="포옹이 필요한 친구를 찾아보세요!"
             value={searchTerm}
             onChange={e => setSearchTerm(e.target.value)}
+            onKeyDown={e => { if (e.key === 'Enter') handleSearch(); }}
           />
           <PrimaryButton onClick={handleSearch}>검색</PrimaryButton>
         </div>
