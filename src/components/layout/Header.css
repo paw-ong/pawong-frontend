@@ -149,6 +149,17 @@
     right: 0;
   }
 
+  .mobile-menu .user {
+    display: block;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+
+  .mobile-menu .user-img {
+    width: 60px;
+    height: 60px;
+  }
+
   .mobile-menu .main-nav {
     display: block;
   }
@@ -159,11 +170,6 @@
 
   .mobile-menu .tab-item {
     margin: 1rem 0;
-  }
-
-  .mobile-menu .user {
-    display: block;
-    margin-top: 2rem;
   }
 
   .mobile-menu .tab-item a {

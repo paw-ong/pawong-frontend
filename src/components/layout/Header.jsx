@@ -108,6 +108,9 @@ function Header() {
 
       {/* 모바일 메뉴 */}
       <div className={`mobile-menu ${isMenuOpen ? 'open' : ''}`} ref={menuRef}>
+        <div className="user" onClick={handleUserClick}>
+          <img src={userImage} alt="user-img" className="user-img"/>
+        </div>
         <nav className="main-nav">
           <ul className="nav-tabs">
             <li className="tab-item">
@@ -122,9 +125,6 @@ function Header() {
             </li>
           </ul>
         </nav>
-        <div className="user" onClick={handleUserClick}>
-          <img src={userImage} alt="user-img" className="user-img"/>
-        </div>
       </div>
     </header>
   );
