@@ -14,13 +14,13 @@ export default function AdditionalInfo() {
   const { login } = useContext(AuthContext);
   const [ searchParams ] = useSearchParams();
   const token = searchParams.get('token');
-
+  const status = searchParams.get('status');
   useEffect(() => {
     if (token) {
       // AuthContext.login 으로 토큰 저장하고 /auth/me 호출해서 user 상태 세팅
       login(token)
       .catch(() => {
-        alert('회원가입 실패: ' + (err.response?.data?.message || err.message))
+        alert('카카오 로그인 실패: ' + (err.response?.data?.message || err.message))
         navigate('/login')  
       })
     }
@@ -34,9 +34,19 @@ export default function AdditionalInfo() {
   const handleSubmit = async e => {
     e.preventDefault()
     try {
-      const res = await client.post('/auth/signup', form)
-      localStorage.setItem('userInfo', JSON.stringify(res.data.user))
-      navigate('/main')
+      await client.post('/auth/signup', form)
+      .then(res => {
+        if(res.data.status === 'ACTIVE') {
+          localStorage.setItem('userInfo', JSON.stringify(res.data))
+          setUser(res.data)
+          navigate('/main')
+        } else {
+          alert('회원가입 실패: ' + (res.response?.data?.message || res.message))
+        }
+      })
+      .catch(err => {
+        alert('회원가입 실패: ' + (err.response?.data?.message || err.message))
+      })
     } catch (err) {
       alert('회원가입 실패: ' + (err.response?.data?.message || err.message))
     }
