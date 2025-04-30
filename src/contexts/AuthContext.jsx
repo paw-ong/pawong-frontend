@@ -44,7 +44,6 @@ export function AuthProvider({ children }) {
         const status = statusFromQuery || (user && user.status)
 
         if (token && status === 'ACTIVE') {
-          console.log('status 있음, 토큰 있음')
           await client.get('/user/me')
           .then(res => {
             setUser(res.data)
