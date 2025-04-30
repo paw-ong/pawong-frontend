@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import AddressModal from "./AddressModal";
 import PrimaryButton from "../common/PrimaryButton";
 import "./AdoptionSearchBar.css";
@@ -25,6 +25,107 @@ function AdoptionSearchBar({ onSearch }) {
   const [sex, setSex] = useState("ALL");
   const [neuter, setNeuter] = useState("ALL");
   const [searchTerm, setSearchTerm] = useState("");
+  const [autocompleteList, setAutocompleteList] = useState([]);
+  const [selectedIndex, setSelectedIndex] = useState(-1);
+  const [isLoading, setIsLoading] = useState(false);
+  const searchInputRef = useRef(null);
+
+  // 자동완성 API 호출
+  const fetchAutocomplete = async (keyword) => {
+    if (!keyword.trim()) {
+      setAutocompleteList([]);
+      setSelectedIndex(-1);
+      return;
+    }
+
+    try {
+      setIsLoading(true);
+      const response = await fetch(`http://localhost:8080/api/adoptions/search/autocomplete?keyword=${encodeURIComponent(keyword)}`);
+      const data = await response.json();
+      setAutocompleteList(data.autocompletes || []);
+      setSelectedIndex(-1);
+    } catch (error) {
+      console.error('자동완성 요청 실패:', error);
+      setAutocompleteList([]);
+      setSelectedIndex(-1);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // 검색어 변경 시 자동완성 요청
+  const handleSearchTermChange = (e) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+    
+    // 마지막 단어 추출
+    const words = value.split(' ');
+    const lastWord = words[words.length - 1];
+    
+    if (lastWord) {
+      fetchAutocomplete(lastWord);
+    } else {
+      setAutocompleteList([]);
+      setSelectedIndex(-1);
+    }
+  };
+
+  // 자동완성 선택 처리
+  const handleAutocompleteSelect = (selected) => {
+    const words = searchTerm.split(' ');
+    words[words.length - 1] = selected;
+    const newSearchTerm = words.join(' ');
+    setSearchTerm(newSearchTerm + ' ');
+    setAutocompleteList([]);
+    setSelectedIndex(-1);
+    searchInputRef.current?.focus();
+  };
+
+  // 키보드 네비게이션
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      if (autocompleteList.length > 0 && selectedIndex >= 0) {
+        handleAutocompleteSelect(autocompleteList[selectedIndex]);
+      } else {
+        handleSearch();
+      }
+      return;
+    }
+
+    if (autocompleteList.length === 0) return;
+
+    switch (e.key) {
+      case 'ArrowDown':
+        e.preventDefault();
+        const nextIndex = selectedIndex < autocompleteList.length - 1 ? selectedIndex + 1 : selectedIndex;
+        if (nextIndex !== selectedIndex) {
+          setSelectedIndex(nextIndex);
+          // 선택과 동시에 스크롤
+          requestAnimationFrame(() => {
+            const element = document.querySelector(`.autocomplete-item:nth-child(${nextIndex + 1})`);
+            element?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+          });
+        }
+        break;
+      case 'ArrowUp':
+        e.preventDefault();
+        const prevIndex = selectedIndex > 0 ? selectedIndex - 1 : selectedIndex;
+        if (prevIndex !== selectedIndex) {
+          setSelectedIndex(prevIndex);
+          // 선택과 동시에 스크롤
+          requestAnimationFrame(() => {
+            const element = document.querySelector(`.autocomplete-item:nth-child(${prevIndex + 1})`);
+            element?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+          });
+        }
+        break;
+      case 'Escape':
+        setAutocompleteList([]);
+        setSelectedIndex(-1);
+        break;
+    }
+  };
 
   // 체크박스 핸들러
   const handleKindChange = (kind) => {
@@ -85,14 +186,30 @@ function AdoptionSearchBar({ onSearch }) {
           <PrimaryButton onClick={() => setIsModalOpen(true)}>지역조건추가</PrimaryButton>
         </div>
         <div className="search-row">
-          <input
-            className="search-input"
-            type="text"
-            placeholder="포옹이 필요한 친구를 찾아보세요!"
-            value={searchTerm}
-            onChange={e => setSearchTerm(e.target.value)}
-            onKeyDown={e => { if (e.key === 'Enter') handleSearch(); }}
-          />
+          <div className="search-input-wrapper">
+            <input
+              ref={searchInputRef}
+              className="search-input"
+              type="text"
+              placeholder="포옹이 필요한 친구를 찾아보세요!"
+              value={searchTerm}
+              onChange={handleSearchTermChange}
+              onKeyDown={handleKeyDown}
+            />
+            {autocompleteList.length > 0 && (
+              <ul className="autocomplete-list">
+                {autocompleteList.map((item, index) => (
+                  <li
+                    key={index}
+                    className={`autocomplete-item ${index === selectedIndex ? 'selected' : ''}`}
+                    onClick={() => handleAutocompleteSelect(item)}
+                  >
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
           <PrimaryButton onClick={handleSearch}>검색</PrimaryButton>
         </div>
       </div>
