@@ -10,6 +10,8 @@ import phoneIcon from '../assets/images/info/phone.png'
 
 export default function AdditionalInfo() {
   const [form, setForm] = useState({ nickname: '', region: '', tel: '' })
+  const [user, setUser] = useState(null)
+  const [registered, setRegistered] = useState(false)
   const navigate = useNavigate()
   const { login } = useContext(AuthContext);
   const [ searchParams ] = useSearchParams();
@@ -34,19 +36,17 @@ export default function AdditionalInfo() {
   const handleSubmit = async e => {
     e.preventDefault()
     try {
-      await client.post('/auth/signup', form)
-      .then(res => {
-        if(res.data.status === 'ACTIVE') {
-          localStorage.setItem('userInfo', JSON.stringify(res.data))
-          setUser(res.data)
-          navigate('/main')
-        } else {
-          alert('회원가입 실패: ' + (res.response?.data?.message || res.message))
-        }
-      })
-      .catch(err => {
-        alert('회원가입 실패: ' + (err.response?.data?.message || err.message))
-      })
+      const res = await client.post('/auth/signup', form)
+      if(res.data.status === 'ACTIVE') {
+        await login(token, 'ACTIVE')
+        // const userRes = await client.get('/user/me')
+        // localStorage.setItem('userInfo', JSON.stringify(userRes.data))
+        // setUser(userRes.data)
+        // setRegistered(true)
+        navigate('/main')
+      } else {
+        alert('회원가입 실패: ' + (res.response?.data?.message || res.message))
+      }
     } catch (err) {
       alert('회원가입 실패: ' + (err.response?.data?.message || err.message))
     }
