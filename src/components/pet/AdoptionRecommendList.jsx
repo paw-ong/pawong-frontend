@@ -1,13 +1,15 @@
-// ./src/components/pet/LostAnimalList.jsx
-
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Slider from "react-slick";
 import PetCard from "./PetCard.jsx";
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import './List.css'
-import userImage from '../../assets/images/user.jpg';
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import {getAdoptionList} from "../../services/adoptionService.js";
+import { useNavigate } from "react-router-dom";
+import PrimaryButton from "../common/PrimaryButton.jsx";
+import Adoption from '/src/assets/images/main/Adoption.png';
+import LostAnimal from '/src/assets/images/main/LostAnimal.png';
 
 function SlickPrevArrow(props) {
   const { className, style, onClick } = props;
@@ -67,48 +69,65 @@ function SlickNextArrow(props) {
   );
 }
 
-function LostAnimalList() {
-  const [pets, setPets] = useState([]);
-  // const [loading, setLoading] = useState(true);
-  // const [error, setError] = useState(null);
-  //
-  // useEffect(() => {
-  //   const fetchPets = async () => {
-  //     try {
-  //       setLoading(true);
-  //       const response = await axios.get('api link');
-  //       setPets(response.data);
-  //     } catch (error) {
-  //       setError(error.message || '데이터를 불러오는데 실패했습니다.');
-  //       console.error('데이터를 불러오는데 실패했습니다: ', error);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-  //
-  //   fetchPets();
-  // }, []);
+function formatPetData(item) {
+  let sexString = '정보 없음';
+  if (item.sexCd === 'M') sexString = '수컷';
+  else if (item.sexCd === 'F') sexString = '암컷';
+  else if (item.sexCd === 'Q') sexString = '미확인';
 
+  let ageString = '나이 미상';
+  if (item.age) {
+    ageString = `${item.age}년생`;
+  }
+
+  let neuterText = '중성화 미상';
+  if (item.neuterYn === 'Y') neuterText = '중성화 O';
+  else if (item.neuterYn === 'N') neuterText = '중성화 X';
+
+  return {
+    id: item.adoptionId,
+    imgUrl: item.popfile1,
+    upKindNm: item.upKindNm || '정보 없음',
+    sexCd: sexString,
+    age: ageString,
+    neuterYn: neuterText
+  };
+}
+
+function AdoptionRecommendList() {
+  const [pets, setPets] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  console.log('AdoptionRecommendList mounted')
   useEffect(() => {
-    const dummyPets = Array.from({ length: 12 }).map((_, idx) => ({
-      id: idx + 1,
-      upKindNm: '토끼',
-      sexCd: '암컷',
-      age: '2021년생',
-      imgUrl: userImage
-    }));
-    setPets(dummyPets);
+    const fetchPets = async () => {
+      try {
+        setLoading(true);
+        const data = await getAdoptionList('/adoptions/recommend');
+        console.log('API 응답:', data); // 응답 구조 확인
+        setPets(data || []);
+      } catch (error) {
+        setError(error.message || '데이터를 불러오는데 실패했습니다.');
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchPets();
   }, []);
 
   const settings = {
     dots: false,
     arrows: true,
-    infinite: pets.length > 12,
+    infinite: true,
     speed: 500,
     slidesToShow: 4,
-    slidesToScroll: 4,
-    nextArrow: <SlickNextArrow />,
-    prevArrow: <SlickPrevArrow />,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 2000,
+    variableWidth: false,
+    nextArrow: <SlickNextArrow/>,
+    prevArrow: <SlickPrevArrow/>,
     responsive: [
       {
         breakpoint: 1024,
@@ -134,19 +153,23 @@ function LostAnimalList() {
     ]
   };
 
+  if (loading) return <div>로딩중...</div>;
+  if (error) return <div>오류: {error}</div>;
+
   return (
-      <section className="lost-animal-section">
-        <h2 className="section-title">실종 공고</h2>
-        <p className="sub-title">아래 동물을 보시면 연락주세요!</p>
+      <section className="adoption-section">
+        <h2 className="section-title">입양을 기다리고 있어요!</h2>
+        <div className="slider-wrapper">
         <Slider {...settings}>
-          {pets.slice(0, 12).map(pet => (
-              <div key={pet.id}>
-                <PetCard pet={pet} type="lostAnimal"/>
+          {pets.map(pet => (
+              <div key={pet.adoptionId}>
+                <PetCard pet={formatPetData(pet)} type="adoption"/>
               </div>
           ))}
         </Slider>
+        </div>
       </section>
   );
 }
 
-export default LostAnimalList;
+export default AdoptionRecommendList;
