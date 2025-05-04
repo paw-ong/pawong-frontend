@@ -3,14 +3,18 @@ import AdoptionSearchBar from "../components/pet/AdoptionSearchBar";
 import AdoptionResultList from "../components/pet/AdoptionResultList";
 
 function Adoption() {
-  const [searchParams, setSearchParams] = useState(null); // 검색 조건
-  const [results, setResults] = useState([]); // 검색 결과
+  const [isSearch, setIsSearch] = useState(false);
+  const [searchResults, setSearchResults] = useState(null);
   const [loading, setLoading] = useState(false);
 
   // 검색 함수: AdoptionSearchBar에서 호출
   const handleSearch = async (params) => {
-    setSearchParams(params);
+    // 검색 시작 시 즉시 검색 모드로 변경하여 기존 데이터 초기화
+    setIsSearch(true);
+    // 기존 검색 결과 초기화
+    setSearchResults(null);
     setLoading(true);
+    
     try {
       const urlParams = new URLSearchParams();
       params.selectedKinds.forEach((kind) => urlParams.append("upKindCds", kind));
@@ -24,13 +28,22 @@ function Adoption() {
         urlParams.append("searchTerm", params.searchTerm.trim());
       }
       const url = `http://localhost:8080/api/adoptions/search?${urlParams.toString()}`;
+      console.log("검색 요청 URL:", url);
+      
       const res = await fetch(url);
       if (!res.ok) throw new Error("검색 실패");
       const data = await res.json();
-      setResults(data.results || []); // 실제 데이터 구조에 맞게 수정 필요
-    } catch (e) {
+      
+      console.log("검색 결과:", data);
+      
+      // 검색 결과 설정
+      setSearchResults(data);
+    } catch (error) {
+      console.error("검색 중 오류 발생:", error);
       alert("검색 중 오류 발생");
-      setResults([]);
+      
+      // 검색 실패 시 일반 모드로 복귀
+      setIsSearch(false);
     } finally {
       setLoading(false);
     }
@@ -39,7 +52,11 @@ function Adoption() {
   return (
     <div>
       <AdoptionSearchBar onSearch={handleSearch} />
-      <AdoptionResultList results={results} loading={loading} />
+      <AdoptionResultList 
+        isSearch={isSearch} 
+        searchResults={searchResults} 
+        loading={loading} 
+      />
     </div>
   );
 }

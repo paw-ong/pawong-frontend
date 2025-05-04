@@ -92,10 +92,32 @@
   width: 100%;
 }
 
-.pet-upKindNm, .pet-sexCd, .pet-age {
-  font-size: 14px;
+.pet-upKindNm {
+  font-size: 16px;
+  font-weight: 600;
   margin: 4px 0;
-  text-align: center;
+  color: #333;
+}
+
+.pet-info-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin: 4px 0;
+  font-size: 14px;
+  color: #666;
+}
+
+.info-divider {
+  color: #999;
+  font-size: 8px;
+}
+
+.pet-neuterYn {
+  font-size: 13px;
+  color: #888;
+  margin: 4px 0;
 }
 
 .card-link {
@@ -109,7 +131,7 @@
 }
 
 .card:hover .pet-upKindNm,
-.card:hover .pet-sexCd,
-.card:hover .pet-age {
-  color: #A79277
+.card:hover .pet-info-row,
+.card:hover .pet-neuterYn {
+  color: #A79277;
 }
