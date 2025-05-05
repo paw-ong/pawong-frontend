@@ -66,7 +66,7 @@ function AdoptionList() {
         <h2 className="section-title">입양을 기다리고 있어요!</h2>
         <div className="card-container">
           {pets.map(pet => (
-              <PetCard key={pet.id} pet={pet} type="adoption" />
+              <PetCard key={pet.id} pet={pet} type="adoptions" />
           ))}
         </div>
       </section>

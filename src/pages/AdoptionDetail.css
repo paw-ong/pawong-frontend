@@ -256,6 +256,25 @@ button {
 
 .shelter-info-item.full-width {
   grid-column: 1 / -1;
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+}
+
+.shelter-info-item.full-width .shelter-info-label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #333;
+}
+
+.shelter-info-item.full-width .shelter-info-value {
+  display: block;
+  color: #666;
+  line-height: 1.5;
+  word-break: break-word;
 }
 
 .shelter-info-label {
@@ -282,4 +301,16 @@ button {
 .adoption-bottom-box .shelter-info {
   background-color: #fff;
   border: 2px solid #fff3ed;
+}
+
+.shelter-info-notice {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 15px;
+  margin-top: 10px;
+  background-color: #fff5f5;
+  border-radius: 8px;
+  color: #666;
+  font-size: 14px;
+  border: 1px solid #ffd6b3;
 }

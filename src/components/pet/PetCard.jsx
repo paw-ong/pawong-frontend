@@ -64,7 +64,7 @@ function PetCard({ pet, type }) {
   };
 
   return (
-    <Link to={`/${type}/detail/${pet.id}`} className="card-link">
+    <Link to={`/${type}/${pet.id}`} className="card-link">
       <div className="card">
         <div className="card-img-container">
           <img src={pet.imgUrl} alt={pet.name || '동물 사진'} className="card-img"/>
