@@ -106,7 +106,7 @@ function AdoptionRecommendList() {
         setLoading(true);
         const data = await getAdoptionList('/adoptions/recommend');
         console.log('API 응답:', data); // 응답 구조 확인
-        setPets(data || []);
+        setPets(data.adoptionCards || []);
       } catch (error) {
         setError(error.message || '데이터를 불러오는데 실패했습니다.');
       } finally {
