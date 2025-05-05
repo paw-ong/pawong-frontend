@@ -76,7 +76,7 @@ function PetCard({ pet, type }) {
           </button>
         </div>
         <div className="card-content">
-          <p className="pet-upKindNm">{pet.upKindNm || '정보 없음'}</p>
+          <p className="pet-kindNm">{pet.kindNm || '정보 없음'}</p>
           <div className="pet-info-row">
             <span className="pet-sexCd">{pet.sexCd || '정보 없음'}</span>
             <span className="info-divider">•</span>
