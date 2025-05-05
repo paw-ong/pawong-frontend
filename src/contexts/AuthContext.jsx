@@ -6,29 +6,37 @@ import client from '../api/client'
 export const AuthContext = createContext()
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
-  // isRegistered 은 “추가 정보 입력까지 완료되어 백엔드에 ACTIVE 상태로 저장된 회원” 인지를 나타냄
-  const [isRegistered, setIsRegistered] = useState(false) 
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
   const navigate = useNavigate()
   const { pathname } = useLocation()
+  const [user, setUser] = useState(() => {
+    const userInfo = localStorage.getItem('userInfo')
+    return userInfo ? JSON.parse(userInfo) : null
+  })
+  // isRegistered 은 “추가 정보 입력까지 완료되어 백엔드에 ACTIVE 상태로 저장된 회원” 인지를 나타냄
+  const [isRegistered, setIsRegistered] = useState(() => {
+    localStorage.getItem('status') === 'ACTIVE'
+  })
 
   useEffect(() => {
     // 앱 시작 시 토큰 있으면 로컬 스토리지에 저장
     const token = localStorage.getItem('userToken')
+    const status = localStorage.getItem('status')
 
     // 가입 완료시 /auth/me 호출해서 user 초기화
-    if (token && isRegistered) {
+    if (token && status === 'ACTIVE') {
       setLoading(true)
+      setIsRegistered(true)
       client.get('/user/me')
         .then(res => {
           setUser(res.data)
-          setIsRegistered(res.data.status === 'ACTIVE')
+          setIsRegistered(true)
+          // localStorage.setItem('userInfo', JSON.stringify(res.data))
         })
         .catch(() => {
           localStorage.removeItem('userToken')
           localStorage.removeItem('status')
+          localStorage.removeItem('userInfo')
           setUser(null)
           setIsRegistered(false)
         })
@@ -42,7 +50,7 @@ export function AuthProvider({ children }) {
     const login = async (token, statusFromQuery) => {
         localStorage.setItem('userToken', token)
         const status = statusFromQuery || (user && user.status)
-
+        localStorage.setItem('status', status)
         if (token && status === 'ACTIVE') {
           await client.get('/user/me')
           .then(res => {
@@ -63,6 +71,7 @@ export function AuthProvider({ children }) {
     const logout = () => {
         localStorage.removeItem('userToken')
         localStorage.removeItem('status')
+        // localStorage.removeItem('userInfo')
         setUser(null)
         setIsRegistered(false)
         navigate('/login')
