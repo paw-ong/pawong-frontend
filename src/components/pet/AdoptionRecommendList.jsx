@@ -87,7 +87,7 @@ function formatPetData(item) {
   return {
     id: item.adoptionId,
     imgUrl: item.popfile1,
-    upKindNm: item.upKindNm || '정보 없음',
+    kindNm: item.kindNm || '정보 없음',
     sexCd: sexString,
     age: ageString,
     neuterYn: neuterText
