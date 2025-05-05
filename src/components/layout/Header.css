@@ -82,6 +82,19 @@
   object-fit: cover;
 }
 
+.user {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-left: auto;
+  margin-right: 30px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .hamburger-menu {
   display: none;
   flex-direction: column;
@@ -150,14 +163,21 @@
   }
 
   .mobile-menu .user {
-    display: block;
-    margin-bottom: 2rem;
-    text-align: center;
+    display: flex;            /* 컨테이너를 flex로 */
+    align-items: center;      /* 세로 중앙 정렬 */
+    justify-content: flex-start; /* 가로는 왼쪽 정렬 */
+    margin: 0 0 2rem 0;       /* 아래만 마진, 좌우 마진 초기화 */
+    /* padding-left: 1rem;       네비 탭들과 같은 좌측 여백 */
+    text-align: left;         /* 텍스트 정렬도 왼쪽으로 */
   }
 
   .mobile-menu .user-img {
-    width: 60px;
-    height: 60px;
+    display: block;
+    margin: 0;     /* auto 여백 지우기 */
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
   }
 
   .mobile-menu .main-nav {

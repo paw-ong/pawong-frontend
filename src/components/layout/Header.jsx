@@ -1,11 +1,13 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import {Link, NavLink, useNavigate} from 'react-router-dom'
 import './Header.css';
 import logo from '../../assets/images/logo/logo.png';
 import defaultUserImage from '../../assets/images/user.jpg'
+import { AuthContext } from '../../contexts/AuthContext';
 
 function Header() {
   const navigate = useNavigate();
+  const { user } = useContext(AuthContext);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userImage, setUserImage] = useState(defaultUserImage);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -14,17 +16,12 @@ function Header() {
   const hamburgerRef = useRef(null);
 
   useEffect(() => {
-    const userToken = localStorage.getItem('userToken');
-    const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-
-    setIsLoggedIn(!!userToken);
-
-    if (userInfo && userInfo.profileImage) {
-      setUserImage(userInfo.profileImage);
+    if (user && user.profileImage) {
+      setUserImage(user.profileImage);
     } else {
       setUserImage(defaultUserImage);
     }
-  }, []);
+  }, [user]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -53,10 +50,10 @@ function Header() {
   }, []);
 
   const handleUserClick = () => {
-    if (isLoggedIn) {
+    if (user) {
       navigate('/mypage');
     } else {
-      navigate('/login');
+    navigate('/login');
     }
     setIsMenuOpen(false);
   };
