@@ -21,6 +21,10 @@
   font-style: normal;
 }
 
+main {
+  margin-top: 95px;
+}
+
 a {
   font-weight: 500;
   color: #646cff;
