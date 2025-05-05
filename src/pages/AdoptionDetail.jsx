@@ -41,16 +41,6 @@ function AdoptionDetail() {
     setTimeout(() => setShowModal(false), 1500);
   };
 
-  const formatTime = (time) => {
-    if (!time) return '문의바람';
-    return time.slice(0, 2) + ':' + time.slice(2);
-  };
-
-  const formatOperatingHours = (startTime, endTime) => {
-    if (!startTime || !endTime) return '문의바람';
-    return `${formatTime(startTime)} - ${formatTime(endTime)}`;
-  };
-
   const displayValue = (value) => {
     return value || '문의바람';
   };
@@ -58,8 +48,8 @@ function AdoptionDetail() {
   const calculateAge = (birthYear) => {
     if (!birthYear) return '문의바람';
     const currentYear = new Date().getFullYear();
-    const age = currentYear - birthYear + 1;
-    return `${age}세`;
+    const age = currentYear - birthYear;
+    return age < 1 ? '나이 측정 불가' : `${age}세`;
   };
 
   if (loading) {
@@ -95,21 +85,33 @@ function AdoptionDetail() {
                 <div className="shelter-info-item">
                   <span className="shelter-info-label">성별</span>
                   <span className="shelter-info-value">
-                    <span style={{fontSize: '24px', color: adoptionDetailDto.sexCd === 'M' ? '#2196F3' : '#FF69B4'}}>
-                      {adoptionDetailDto.sexCd === 'M' ? '♂' : '♀'}
-                    </span>
+                    {adoptionDetailDto.sexCd === 'M' ? (
+                      <span style={{fontSize: '24px', color: '#2196F3'}}>♂</span>
+                    ) : adoptionDetailDto.sexCd === 'F' ? (
+                      <span style={{fontSize: '24px', color: '#FF69B4'}}>♀</span>
+                    ) : (
+                      <span style={{color: '#666'}}>확인불가</span>
+                    )}
                   </span>
                 </div>
                 <div className="shelter-info-item">
                   <span className="shelter-info-label">중성화여부</span>
                   <span className="shelter-info-value">
-                    <img 
-                      src={adoptionDetailDto.neuterYn === 'Y' ? 
-                        "https://cdn-icons-png.flaticon.com/512/1828/1828640.png" : 
-                        "https://cdn-icons-png.flaticon.com/512/1828/1828778.png"} 
-                      alt={adoptionDetailDto.neuterYn === 'Y' ? "완료" : "미완료"} 
-                      style={{width: '22px', height: '22px'}} 
-                    />
+                    {adoptionDetailDto.neuterYn === 'Y' ? (
+                      <img 
+                        src="https://cdn-icons-png.flaticon.com/512/1828/1828640.png" 
+                        alt="완료" 
+                        style={{width: '22px', height: '22px'}} 
+                      />
+                    ) : adoptionDetailDto.neuterYn === 'N' ? (
+                      <img 
+                        src="https://cdn-icons-png.flaticon.com/512/1828/1828778.png" 
+                        alt="미완료" 
+                        style={{width: '22px', height: '22px'}} 
+                      />
+                    ) : (
+                      <span style={{color: '#666'}}>확인 불가</span>
+                    )}
                   </span>
                 </div>
                 <div className="shelter-info-item">
