@@ -55,10 +55,28 @@ function AddressModal({ onClose, onSelect }) {
       );
 
       if (!isDuplicate) {
-        const updatedAddresses = [...selectedAddresses, newAddress];
-        setSelectedAddresses(updatedAddresses);
-        setMaxReached(updatedAddresses.length >= 5);
+        // 시/도 전체를 선택하는 경우
+        if (selectedDistrict === "전체") {
+          // 해당 시/도의 모든 하위 구/군 제거
+          setSelectedAddresses(prev => 
+            prev.filter(addr => addr.city !== selectedCity)
+          );
+        } else {
+          // 시/도 전체가 이미 선택되어 있는지 확인
+          const hasCityAll = selectedAddresses.some(
+            addr => addr.city === selectedCity && addr.district === "전체"
+          );
+          
+          if (hasCityAll) {
+            // 이미 시/도 전체가 선택되어 있으면 추가하지 않음
+            return;
+          }
+        }
+        
+        setSelectedAddresses(prev => [...prev, newAddress]);
       }
+    } else if (selectedAddresses.length >= 5) {
+      setMaxReached(true);
     }
   };
 
