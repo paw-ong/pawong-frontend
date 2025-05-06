@@ -15,7 +15,7 @@ export function AuthProvider({ children }) {
   })
   // isRegistered 은 “추가 정보 입력까지 완료되어 백엔드에 ACTIVE 상태로 저장된 회원” 인지를 나타냄
   const [isRegistered, setIsRegistered] = useState(() => {
-    localStorage.getItem('status') === 'ACTIVE'
+    return localStorage.getItem('status') === 'ACTIVE'
   })
 
   useEffect(() => {
@@ -31,7 +31,7 @@ export function AuthProvider({ children }) {
         .then(res => {
           setUser(res.data)
           setIsRegistered(true)
-          // localStorage.setItem('userInfo', JSON.stringify(res.data))
+          localStorage.setItem('userInfo', JSON.stringify(res.data))
         })
         .catch(() => {
           localStorage.removeItem('userToken')
