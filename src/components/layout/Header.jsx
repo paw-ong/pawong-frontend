@@ -4,6 +4,7 @@ import './Header.css';
 import logo from '../../assets/images/logo/logo.png';
 import defaultUserImage from '../../assets/images/user.jpg'
 import { AuthContext } from '../../contexts/AuthContext';
+import { useLocation } from "react-router-dom";
 
 function Header() {
   const navigate = useNavigate();
@@ -14,6 +15,8 @@ function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const menuRef = useRef(null);
   const hamburgerRef = useRef(null);
+  const location = useLocation();
+  const isMainPage = location.pathname === '/main';
 
   useEffect(() => {
     if (user && user.profileImage) {
@@ -79,6 +82,8 @@ function Header() {
       <div className="desktop-menu">
         <nav className="main-nav">
           <ul className="nav-tabs">
+            {!isMainPage && (
+                <>
             <li className="tab-item">
               <NavLink to="/adoption" className={({ isActive }) => (isActive ? "active" : "")}>
                 입양 동물
@@ -89,6 +94,8 @@ function Header() {
                 실종 동물
               </NavLink>
             </li>
+                </>
+                )}
           </ul>
         </nav>
         <div className="user" onClick={handleUserClick}>
