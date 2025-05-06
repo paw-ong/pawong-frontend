@@ -81,6 +81,6 @@ const styles = {
     backgroundColor: '#fafafa',
     cursor: 'pointer',
     transition: 'background-color 0.2s ease',
-    backgroundColor: '#EAD8C0'
-  },
+    backgroundColor: '#EAD8C0',
+  }
 }
