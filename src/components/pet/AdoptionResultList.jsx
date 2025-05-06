@@ -88,7 +88,7 @@ function AdoptionResultList({ isSearch, searchResults, loading }) {
     return {
       id: item.adoptionId,  // 중요: adoptionId를 id로 매핑해야 PetCard의 API 호출이 정상 작동
       imgUrl: item.popfile1,
-      upKindNm: item.kindNm || '기타',
+      kindNm: item.kindNm || '기타',
       sexCd: item.sexCd === 'M' ? '수컷' : item.sexCd === 'F' ? '암컷' : '미상',
       age: ageString,
       neuterYn: item.neuterYn === 'Y' ? '중성화 O' : item.neuterYn === 'N' ? '중성화 X' : '중성화 미상'

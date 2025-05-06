@@ -5,5 +5,64 @@
   padding: 0;
   box-sizing: border-box;
   display: flex;
+}
+
+.lists-container {
+  display: flex;
   flex-direction: column;
+  align-items: center;      /* 수평 중앙 정렬 */
+  justify-content: center;  /* 필요시 수직 중앙 정렬 (부모 높이 충분할 때만) */
+  width: 100%;
+  gap: 40px;                /* 리스트와 버튼 사이 간격 */
+  margin-top: 40px;
+  margin-bottom: 60px;      /* 푸터와 간격 */
+}
+
+.main-move-btns {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin-top: 32px;
+}
+
+.move-btn-vertical {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #EAD8C0;
+  color: #3E3232 ;
+  border: none;
+  border-radius: 12px;
+  padding: 16px 22px 12px 22px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  min-width: 100px;
+  min-height: 90px;
+}
+
+.move-btn-vertical:hover {
+  background: #D1BB9E !important;
+  border-color: #D1BB9E !important;
+}
+
+.move-btn-img {
+  width: 38px;
+  height: 38px;
+  margin-bottom: 8px;
+  object-fit: contain;
+  display: block;
+}
+
+.move-btn-vertical span {
+  margin-top: 2px;
+  font-size: 1.08em;
+}
+
+.move-btn-vertical:focus,
+.move-btn-vertical:active {
+  outline: none !important;
+  box-shadow: none !important;
 }
