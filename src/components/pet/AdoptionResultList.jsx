@@ -5,6 +5,9 @@ import LoadingSpinner from "../common/LoadingSpinner";
 import axios from 'axios';
 import "./AdoptionResultList.css";
 
+// API 기본 URL 설정 - Nginx 프록시 사용 시 상대 경로 사용
+const API_BASE_URL = '';  // 빈 문자열로 설정하면 현재 호스트로 요청됨
+
 function AdoptionResultList({ isSearch, searchResults, loading }) {
   const [pets, setPets] = useState([]);
   const [hasMore, setHasMore] = useState(true);
@@ -30,7 +33,7 @@ function AdoptionResultList({ isSearch, searchResults, loading }) {
     
     try {
       setLocalLoading(true);
-      const response = await axios.get(`http://localhost:8080/api/adoptions`, {
+      const response = await axios.get(`${API_BASE_URL}/api/adoptions`, {
         params: { page }
       });
       
@@ -83,7 +86,7 @@ function AdoptionResultList({ isSearch, searchResults, loading }) {
     const ageString = ageInYears ? `${ageInYears}살` : '나이 미상';
 
     return {
-      id: item.adoptionId,
+      id: item.adoptionId,  // 중요: adoptionId를 id로 매핑해야 PetCard의 API 호출이 정상 작동
       imgUrl: item.popfile1,
       kindNm: item.kindNm || '기타',
       sexCd: item.sexCd === 'M' ? '수컷' : item.sexCd === 'F' ? '암컷' : '미상',

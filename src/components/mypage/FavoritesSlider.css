@@ -1,0 +1,149 @@
+.favorites-slider-container {
+  padding: 20px 10px 40px;
+  margin: 20px 0;
+  border-radius: 8px;
+  background-color: #fff;
+  position: relative;
+  overflow: visible;
+}
+
+.favorites-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #5D4037;
+  margin-bottom: 20px;
+  text-align: left;
+  padding-left: 15px;
+}
+
+.favorites-navigation-container {
+  position: relative;
+  padding: 0;
+  margin: 0;
+  overflow: visible;
+}
+
+.favorites-swiper {
+  width: 100%;
+  height: 100%;
+  padding: 0 45px 45px; /* 좌우 패딩 약간 더 늘려 화살표 공간 추가 확보 */
+}
+
+.favorites-slide {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 10px 8px 30px; /* 좌우 패딩 줄임 */
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+/* 슬라이드 내 컨텐츠가 넘치지 않도록 */
+.favorites-slide > div {
+  max-width: 100%;
+  box-sizing: border-box;
+  transform: scale(0.92); /* 약간 더 축소하여 4개가 잘 보이도록 */
+}
+
+/* 네비게이션 버튼 위치 및 크기 조정 - 슬라이더 영역 안으로 이동 */
+.swiper-button-prev-custom,
+.swiper-button-next-custom {
+  position: absolute;
+  top: 35%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  z-index: 20;
+  cursor: pointer;
+  background-color: rgba(220, 220, 220, 0.9);
+  border-radius: 50%;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.25);
+}
+
+.swiper-button-prev-custom {
+  left: 5px;
+}
+
+.swiper-button-next-custom {
+  right: 5px;
+}
+
+.swiper-button-prev-custom img,
+.swiper-button-next-custom img {
+  width: 35px;
+  height: 35px;
+  transition: transform 0.3s ease;
+}
+
+.swiper-button-prev-custom:hover img,
+.swiper-button-next-custom:hover img {
+  transform: scale(1.1);
+}
+
+/* 기존 화살표 버튼 숨기기 */
+.swiper-button-next,
+.swiper-button-prev {
+  display: none;
+}
+
+/* 페이지네이션 스타일 */
+.swiper-pagination-bullet {
+  background: #A79277;
+  opacity: 0.5;
+}
+
+.swiper-pagination-bullet-active {
+  background: #A79277;
+  opacity: 1;
+}
+
+/* 페이지네이션 위치 조정 */
+.swiper-pagination {
+  bottom: 10px !important;
+}
+
+.favorites-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  color: #777;
+  font-size: 16px;
+}
+
+.favorites-empty {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  color: #777;
+  text-align: center;
+  line-height: 1.6;
+}
+
+.favorites-empty p:first-child {
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.favorites-empty p:last-child {
+  font-size: 14px;
+  color: #999;
+}
+
+/* 반응형 조정 */
+@media screen and (max-width: 768px) {
+  .favorites-slider-container {
+    padding: 15px 5px;
+  }
+  
+  .favorites-title {
+    font-size: 20px;
+  }
+} 
