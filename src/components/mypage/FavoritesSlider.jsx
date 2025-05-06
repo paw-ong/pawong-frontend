@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
 import PetCard from '../pet/PetCard';
+import client from '../../api/client';
 import './FavoritesSlider.css';
 
 // 화살표 이미지 임포트
@@ -27,17 +28,8 @@ function FavoritesSlider() {
       }
 
       try {
-        const response = await fetch('/api/users/me/favorites', {
-          headers: {
-            'Authorization': `Bearer ${userToken}`
-          }
-        });
-
-        if (!response.ok) {
-          throw new Error('찜 목록 가져오기 실패');
-        }
-
-        const data = await response.json();
+        const { data } = await client.get('/users/me/favorites')
+        console.log('찜 목록 응답:', data);
         setFavorites(data.favoritesList || []);
       } catch (error) {
         console.error('찜 목록 로딩 중 오류 발생:', error);
