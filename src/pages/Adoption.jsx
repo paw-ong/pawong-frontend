@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import AdoptionSearchBar from "../components/pet/AdoptionSearchBar";
 import AdoptionResultList from "../components/pet/AdoptionResultList";
+import client from "../api/client";
 
 function Adoption() {
   const [isSearch, setIsSearch] = useState(false);
@@ -27,10 +28,10 @@ function Adoption() {
       if (params.searchTerm && params.searchTerm.trim()) {
         urlParams.append("searchTerm", params.searchTerm.trim());
       }
-      const url = `http://localhost:8080/api/adoptions/search?${urlParams.toString()}`;
-      console.log("검색 요청 URL:", url);
+      const url = `/adoptions/search?${urlParams.toString()}`;
+      const res = await client.get(url);
       
-      const res = await fetch(url);
+
       if (!res.ok) throw new Error("검색 실패");
       const data = await res.json();
       
