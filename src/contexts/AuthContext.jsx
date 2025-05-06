@@ -76,20 +76,7 @@ export function AuthProvider({ children }) {
         setIsRegistered(false)
         navigate('/login')
     }
-
-    // 로그인, 추가정보, OAuth 리다이렉트 페이지는 스킵
-    // const publicPaths = [
-    //     '/main',
-    //     '/login',
-    //     '/signup/additional-info',
-    //     '/oauth2/redirect'
-    // ]
-    // useEffect(() => {
-    //     if (!loading && !publicPaths.includes(pathname) && !user) {
-    //         navigate('/login')
-    //     }
-    // }, [loading, pathname, isRegistered, user, navigate])
-//   if (loading) return <div>로딩 중…</div>
+  
   return (
     <AuthContext.Provider value={{ 
       user, 
