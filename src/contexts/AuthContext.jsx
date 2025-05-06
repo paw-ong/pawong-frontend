@@ -15,7 +15,7 @@ export function AuthProvider({ children }) {
   })
   // isRegistered 은 “추가 정보 입력까지 완료되어 백엔드에 ACTIVE 상태로 저장된 회원” 인지를 나타냄
   const [isRegistered, setIsRegistered] = useState(() => {
-    localStorage.getItem('status') === 'ACTIVE'
+    return localStorage.getItem('status') === 'ACTIVE'
   })
 
   useEffect(() => {
@@ -31,7 +31,7 @@ export function AuthProvider({ children }) {
         .then(res => {
           setUser(res.data)
           setIsRegistered(true)
-          // localStorage.setItem('userInfo', JSON.stringify(res.data))
+          localStorage.setItem('userInfo', JSON.stringify(res.data))
         })
         .catch(() => {
           localStorage.removeItem('userToken')
@@ -76,20 +76,7 @@ export function AuthProvider({ children }) {
         setIsRegistered(false)
         navigate('/login')
     }
-
-    // 로그인, 추가정보, OAuth 리다이렉트 페이지는 스킵
-    const publicPaths = [
-        '/main',
-        '/login',
-        '/signup/additional-info',
-        '/oauth2/redirect'
-    ]
-    useEffect(() => {
-        if (!loading && !publicPaths.includes(pathname) && !user) {
-            navigate('/login')
-        }
-    }, [loading, pathname, isRegistered, user, navigate])
-//   if (loading) return <div>로딩 중…</div>
+  
   return (
     <AuthContext.Provider value={{ 
       user, 

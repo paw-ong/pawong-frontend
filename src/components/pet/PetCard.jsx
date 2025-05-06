@@ -4,6 +4,7 @@ import './PetCard.css';
 import likeImg from '../../assets/images/like/like.png';
 import unlikeImg from '../../assets/images/like/unlike.png';
 import PropTypes from 'prop-types';
+import client from "../../api/client";
 
 // API 기본 URL 설정 - Nginx 프록시 사용 시 상대 경로 사용
 const API_BASE_URL = '';  // 빈 문자열로 설정하면 현재 호스트로 요청됨
@@ -23,15 +24,10 @@ function PetCard({ pet, type }) {
     if (userToken && pet.id) {
       // 초기 찜 상태 확인 API 호출
       console.log(`찜 상태 확인 API 호출: /api/users/me/favorites/${pet.id}/status`);
-      fetch(`${API_BASE_URL}/api/users/me/favorites/${pet.id}/status`, {
-        headers: {
-          'Authorization': `Bearer ${userToken}`
-        }
-      })
-      .then(response => response.json())
-      .then(data => {
-        console.log('찜 상태 응답:', data);
-        setIsFavorite(data.inFavorites);
+      client.get(`/users/me/favorites/${pet.id}/status`)
+      .then(response => {
+        console.log('찜 상태 응답:', response);
+        setIsFavorite(response.data.inFavorites);
       })
       .catch(error => console.error('찜 상태 확인 실패: ', error));
     }
@@ -48,22 +44,10 @@ function PetCard({ pet, type }) {
     }
     
     console.log(`찜하기 토글 API 호출: /api/users/me/favorites/${pet.id}`);
-    fetch(`${API_BASE_URL}/api/users/me/favorites/${pet.id}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${userToken}`
-      }
-    })
+    client.post(`/users/me/favorites/${pet.id}`)
     .then(response => {
-      if (!response.ok) {
-        throw new Error('찜 처리 실패');
-      }
-      return response.json();
-    })
-    .then(data => {
-      console.log('찜 처리 응답:', data);
-      setIsFavorite(data.inFavorites);
+      console.log('찜 처리 응답222:', response);
+      setIsFavorite(response.data.inFavorites);
     })
     .catch(error => {
       console.error('찜 처리 실패: ', error);
