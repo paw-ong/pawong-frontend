@@ -2,8 +2,8 @@ import React, { useEffect, useState, useRef, useCallback } from "react";
 import PropTypes from 'prop-types';
 import PetCard from "./PetCard";
 import LoadingSpinner from "../common/LoadingSpinner";
-import axios from 'axios';
 import "./AdoptionResultList.css";
+import client from "../../api/client";
 
 function AdoptionResultList({ isSearch, searchResults, loading }) {
   const [pets, setPets] = useState([]);
@@ -30,7 +30,7 @@ function AdoptionResultList({ isSearch, searchResults, loading }) {
     
     try {
       setLocalLoading(true);
-      const response = await axios.get(`http://localhost:8080/api/adoptions`, {
+      const response = await client.get(`/adoptions`, {
         params: { page }
       });
       
