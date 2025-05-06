@@ -1,10 +1,8 @@
-import axios from 'axios';
-
-const API_BASE_URL = 'http://localhost:8080/api';
+import client from '../api/client';
 
 export const getAdoptionList = async (endpoint, params) => {
   try {
-    const response = await axios.get(`${API_BASE_URL}${endpoint}`, {
+    const response = await client.get(`${endpoint}`, {
       params
     });
     return response.data;
