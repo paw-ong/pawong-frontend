@@ -145,14 +145,20 @@ function AdoptionSearchBar({ onSearch }) {
     }
 
     // 선택된 주소를 문자열 배열로 변환
-    const addressStrings = selectedAddresses.map(addr => `${addr.city} ${addr.district}`);
+    const addressStrings = selectedAddresses.map(addr => {
+      // 구/군이 "전체"인 경우 시/도만 반환
+      if (addr.district === "전체") {
+        return addr.city;
+      }
+      return `${addr.city} ${addr.district}`;
+    });
 
     onSearch({
       selectedKinds,
       sex: sex === "ALL" ? undefined : sex,
       neuter: neuter === "ALL" ? undefined : neuter,
       searchTerm,
-      addresses: addressStrings, // 문자열 배열로 전달
+      addresses: addressStrings,
     });
   };
   
