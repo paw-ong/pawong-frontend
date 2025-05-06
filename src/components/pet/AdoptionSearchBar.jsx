@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import AddressModal from "./AddressModal";
 import PrimaryButton from "../common/PrimaryButton";
+import client from "../../api/client";
 import "./AdoptionSearchBar.css";
 
 const KIND_MAP = [
@@ -40,8 +41,7 @@ function AdoptionSearchBar({ onSearch }) {
 
     try {
       setIsLoading(true);
-      const response = await fetch(`http://localhost:8080/api/adoptions/search/autocomplete?keyword=${encodeURIComponent(keyword)}`);
-      const data = await response.json();
+      const { data } = await client.get(`/adoptions/search/autocomplete?keyword=${encodeURIComponent(keyword)}`);
       setAutocompleteList(data.autocompletes || []);
       setSelectedIndex(-1);
     } catch (error) {
