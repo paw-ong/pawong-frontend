@@ -42,7 +42,7 @@ function AdoptionDetail() {
   };
 
   const displayValue = (value) => {
-    return value || '문의바람';
+    return value || '추가예정';
   };
 
   const calculateAge = (birthYear) => {
@@ -79,8 +79,8 @@ function AdoptionDetail() {
             <div className="adoption-info-box">
               <div className="shelter-info">
                 <div className="shelter-info-item">
-                  <span className="shelter-info-label">축종명</span>
-                  <span className="shelter-info-value">{displayValue(adoptionDetailDto.upKindNm)}</span>
+                  <span className="shelter-info-label">품종명</span>
+                  <span className="shelter-info-value">{displayValue(adoptionDetailDto.kindNm)}</span>
                 </div>
                 <div className="shelter-info-item">
                   <span className="shelter-info-label">성별</span>

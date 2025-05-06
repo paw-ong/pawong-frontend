@@ -1,30 +1,30 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import {Link, NavLink, useNavigate} from 'react-router-dom'
 import './Header.css';
 import logo from '../../assets/images/logo/logo.png';
 import defaultUserImage from '../../assets/images/user.jpg'
+import { AuthContext } from '../../contexts/AuthContext';
+import { useLocation } from "react-router-dom";
 
 function Header() {
   const navigate = useNavigate();
+  const { user } = useContext(AuthContext);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userImage, setUserImage] = useState(defaultUserImage);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const menuRef = useRef(null);
   const hamburgerRef = useRef(null);
+  const location = useLocation();
+  const isMainPage = location.pathname === '/main';
 
   useEffect(() => {
-    const userToken = localStorage.getItem('userToken');
-    const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-
-    setIsLoggedIn(!!userToken);
-
-    if (userInfo && userInfo.profileImage) {
-      setUserImage(userInfo.profileImage);
+    if (user && user.profileImage) {
+      setUserImage(user.profileImage);
     } else {
       setUserImage(defaultUserImage);
     }
-  }, []);
+  }, [user]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -53,10 +53,10 @@ function Header() {
   }, []);
 
   const handleUserClick = () => {
-    if (isLoggedIn) {
+    if (user) {
       navigate('/mypage');
     } else {
-      navigate('/login');
+    navigate('/login');
     }
     setIsMenuOpen(false);
   };
@@ -82,6 +82,8 @@ function Header() {
       <div className="desktop-menu">
         <nav className="main-nav">
           <ul className="nav-tabs">
+            {!isMainPage && (
+                <>
             <li className="tab-item">
               <NavLink to="/adoption" className={({ isActive }) => (isActive ? "active" : "")}>
                 입양 동물
@@ -92,6 +94,8 @@ function Header() {
                 실종 동물
               </NavLink>
             </li>
+                </>
+                )}
           </ul>
         </nav>
         <div className="user" onClick={handleUserClick}>
