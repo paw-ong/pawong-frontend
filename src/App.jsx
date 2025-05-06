@@ -19,8 +19,8 @@ function App() {
       <Route path="/" element={<Layout />}>
       <Route index element={<Navigate to="/main" replace />} />
       <Route path="main" element={<MainPage />} />
-      <Route path="adoption" element={<Adoption />} />
-      <Route path="adoption/detail/:id" element={<AdoptionDetail />} />
+      <Route path="adoptions" element={<Adoption />} />
+      <Route path="adoptions/:id" element={<AdoptionDetail />} />
       <Route path="lostAnimal" element={<LostAnimal />} />
       <Route path="lostAnimal/detail/:id" element={<LostAnimalDetail />} />
       <Route path="oauth2/redirect" element={<OAuthRedirectHandler />} />
