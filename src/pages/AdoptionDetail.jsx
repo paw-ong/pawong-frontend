@@ -131,7 +131,7 @@ function AdoptionDetail() {
                     ) : adoptionDetailDto.sexCd === 'F' ? (
                       <span style={{fontSize: '24px', color: '#FF69B4'}}>♀</span>
                     ) : (
-                      <span style={{color: '#666'}}>확인불가</span>
+                      <span>확인불가</span>
                     )}
                   </span>
                 </div>
@@ -142,16 +142,16 @@ function AdoptionDetail() {
                       <img 
                         src="https://cdn-icons-png.flaticon.com/512/1828/1828640.png" 
                         alt="완료" 
-                        style={{width: '22px', height: '22px'}} 
+                        style={{width: '18px', height: '18px'}}
                       />
                     ) : adoptionDetailDto.neuterYn === 'N' ? (
                       <img 
                         src="https://cdn-icons-png.flaticon.com/512/1828/1828778.png" 
                         alt="미완료" 
-                        style={{width: '22px', height: '22px'}} 
+                        style={{width: '18px', height: '18px'}}
                       />
                     ) : (
-                      <span style={{color: '#666'}}>확인 불가</span>
+                      <span>확인 불가</span>
                     )}
                   </span>
                 </div>
