@@ -2,10 +2,13 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import './AdoptionDetail.css';
 import userImage from '../assets/images/user.jpg'
+import likeImg from '../assets/images/like/like.png';
+import unlikeImg from '../assets/images/like/unlike.png';
+import client from "../api/client";
 
 function AdoptionDetail() {
   const { id } = useParams();
-  const [liked, setLiked] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(false);
   const [modalMsg, setModalMsg] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [adoptionData, setAdoptionData] = useState(null);
@@ -14,12 +17,8 @@ function AdoptionDetail() {
   useEffect(() => {
     const fetchAdoptionData = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/api/adoptions/${id}`);
-        if (!response.ok) {
-          throw new Error('데이터를 불러오는데 실패했습니다.');
-        }
-        const data = await response.json();
-        setAdoptionData(data);
+        const response = await client.get(`/adoptions/${id}`);
+        setAdoptionData(response.data);
       } catch (error) {
         console.error('Error fetching adoption data:', error);
         setModalMsg('데이터를 불러오는데 실패했습니다.');
@@ -33,12 +32,42 @@ function AdoptionDetail() {
     fetchAdoptionData();
   }, [id]);
 
-  const handleLike = () => {
-    const nextLiked = !liked;
-    setLiked(nextLiked);
-    setModalMsg(nextLiked ? "즐겨찾기에 추가하였습니다." : "즐겨찾기가 해제되었습니다.");
-    setShowModal(true);
-    setTimeout(() => setShowModal(false), 1500);
+  // 찜 상태 확인
+  useEffect(() => {
+    const userToken = localStorage.getItem('userToken');
+    
+    if (userToken && id) {
+      client.get(`/users/me/favorites/${id}/status`)
+        .then(response => {
+          setIsFavorite(response.data.inFavorites);
+        })
+        .catch(error => console.error('찜 상태 확인 실패: ', error));
+    }
+  }, [id]);
+
+  const handleFavoriteClick = () => {
+    const userToken = localStorage.getItem('userToken');
+    
+    if (!userToken) {
+      setModalMsg('로그인이 필요한 서비스입니다!');
+      setShowModal(true);
+      setTimeout(() => setShowModal(false), 1500);
+      return;
+    }
+    
+    client.post(`/users/me/favorites/${id}`)
+      .then(response => {
+        setIsFavorite(response.data.inFavorites);
+        setModalMsg(response.data.inFavorites ? "즐겨찾기에 추가하였습니다." : "즐겨찾기가 해제되었습니다.");
+        setShowModal(true);
+        setTimeout(() => setShowModal(false), 1500);
+      })
+      .catch(error => {
+        console.error('찜 처리 실패: ', error);
+        setModalMsg('찜 처리에 실패했습니다.');
+        setShowModal(true);
+        setTimeout(() => setShowModal(false), 1500);
+      });
   };
 
   const displayValue = (value) => {
@@ -70,10 +99,20 @@ function AdoptionDetail() {
             <div className="adoption-image-box">
               <img src={adoptionDetailDto.popfile2 || userImage} alt="이미지" />
               <button 
-                className={`adoption-like-btn${liked ? ' liked' : ''}`}
-                onClick={handleLike}
+                className={`favorite-btn ${isFavorite ? 'active' : ''}`}
+                onClick={handleFavoriteClick}
+                data-is-favorite={isFavorite}
               >
-                찜
+                <img 
+                  src={isFavorite ? likeImg : unlikeImg}
+                  alt={isFavorite ? "찜 해제" : "찜 하기"}
+                  className="favorite-icon"
+                  style={{ 
+                    width: isFavorite ? '20px' : '18px',
+                    height: isFavorite ? '20px' : '18px',
+                    transition: 'all 0.3s ease'
+                  }}
+                />
               </button>
             </div>
             <div className="adoption-info-box">
