@@ -30,6 +30,7 @@ function AdoptionSearchBar({ onSearch }) {
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [isLoading, setIsLoading] = useState(false);
   const searchInputRef = useRef(null);
+  const [selectedAddresses, setSelectedAddresses] = useState([]); // 선택된 주소 저장
 
   // 자동완성 API 호출
   const fetchAutocomplete = async (keyword) => {
@@ -142,12 +143,34 @@ function AdoptionSearchBar({ onSearch }) {
       alert("품종을 한 개 이상 선택해주세요.");
       return;
     }
+
+    // 선택된 주소를 문자열 배열로 변환
+    const addressStrings = selectedAddresses.map(addr => {
+      // 구/군이 "전체"인 경우 시/도만 반환
+      if (addr.district === "전체") {
+        return addr.city;
+      }
+      return `${addr.city} ${addr.district}`;
+    });
+
     onSearch({
       selectedKinds,
       sex: sex === "ALL" ? undefined : sex,
       neuter: neuter === "ALL" ? undefined : neuter,
       searchTerm,
+      addresses: addressStrings,
     });
+  };
+  
+  const handleAddressSelect = (addresses) => {
+    console.log("선택된 지역 목록:", addresses);
+    setSelectedAddresses(addresses);
+    setIsModalOpen(false);  // 선택 완료 후 모달 닫기
+  };
+
+  const handleRemoveAddress = (id) => {
+    console.log("제거할 주소 ID:", id);
+    setSelectedAddresses(prev => prev.filter(addr => addr.id !== id));
   };
 
   return (
@@ -187,15 +210,32 @@ function AdoptionSearchBar({ onSearch }) {
         </div>
         <div className="search-row">
           <div className="search-input-wrapper">
-            <input
-              ref={searchInputRef}
-              className="search-input"
-              type="text"
-              placeholder="포옹이 필요한 친구를 찾아보세요!"
-              value={searchTerm}
-              onChange={handleSearchTermChange}
-              onKeyDown={handleKeyDown}
-            />
+            <div className="search-input-container">
+              <input
+                ref={searchInputRef}
+                className="search-input"
+                type="text"
+                placeholder="포옹이 필요한 친구를 찾아보세요!"
+                value={searchTerm}
+                onChange={handleSearchTermChange}
+                onKeyDown={handleKeyDown}
+              />
+              {selectedAddresses && selectedAddresses.length > 0 && (
+                <div className="selected-addresses">
+                  {selectedAddresses.map((address) => (
+                    <div key={address.id} className="address-tag">
+                      <span>{address.city} {address.district}</span>
+                      <button 
+                        onClick={() => handleRemoveAddress(address.id)}
+                        className="remove-address-btn"
+                      >
+                        ×
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
             {autocompleteList.length > 0 && (
               <ul className="autocomplete-list">
                 {autocompleteList.map((item, index) => (
@@ -213,8 +253,9 @@ function AdoptionSearchBar({ onSearch }) {
           <PrimaryButton onClick={handleSearch}>검색</PrimaryButton>
         </div>
       </div>
+
       {isModalOpen && (
-        <AddressModal onClose={() => setIsModalOpen(false)} />
+        <AddressModal onClose={() => setIsModalOpen(false)} onSelect={handleAddressSelect} />
       )}
     </div>
   );

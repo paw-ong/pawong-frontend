@@ -28,14 +28,15 @@ function Adoption() {
       if (params.searchTerm && params.searchTerm.trim()) {
         urlParams.append("searchTerm", params.searchTerm.trim());
       }
+      if (params.addresses && params.addresses.length > 0) {
+        params.addresses.forEach((address) => urlParams.append("regions", address));
+      }
       const url = `/adoptions/search?${urlParams.toString()}`;
-      const res = await client.get(url);
+      const { data } = await client.get(url);
       
 
-      if (!res.ok) throw new Error("검색 실패");
-      const data = await res.json();
-      
-      console.log("검색 결과:", data);
+      // if (!res.ok) throw new Error("검색 실패");
+      // const data = await res.json();
       
       // 검색 결과 설정
       setSearchResults(data);

@@ -127,7 +127,7 @@ function AdoptionResultList({ isSearch, searchResults, loading }) {
             ref={index === pets.length - 1 ? lastPetElementRef : null}
             className="adoption-result-item"
           >
-            <PetCard pet={formatPetData(item)} type="adoption" />
+            <PetCard pet={formatPetData(item)} type="adoptions" />
           </div>
         ))}
       </div>
