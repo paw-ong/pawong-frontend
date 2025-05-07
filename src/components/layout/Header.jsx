@@ -85,7 +85,7 @@ function Header() {
             {!isMainPage && (
                 <>
             <li className="tab-item">
-              <NavLink to="/adoption" className={({ isActive }) => (isActive ? "active" : "")}>
+              <NavLink to="/adoptions" className={({ isActive }) => (isActive ? "active" : "")}>
                 입양 동물
               </NavLink>
             </li>
@@ -118,7 +118,7 @@ function Header() {
         <nav className="main-nav">
           <ul className="nav-tabs">
             <li className="tab-item">
-              <NavLink to="/adoption" className={({ isActive }) => (isActive ? "active" : "")} onClick={handleMenuClick}>
+              <NavLink to="/adoptions" className={({ isActive }) => (isActive ? "active" : "")} onClick={handleMenuClick}>
                 입양 동물
               </NavLink>
             </li>

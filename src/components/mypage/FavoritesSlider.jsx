@@ -108,7 +108,7 @@ function FavoritesSlider() {
           {favorites.map(pet => (
             <SwiperSlide key={pet.adoptionId}>
               <div className="favorites-slide">
-                <PetCard pet={formatPetData(pet)} type="adoption" />
+                <PetCard pet={formatPetData(pet)} type="adoptions" />
               </div>
             </SwiperSlide>
           ))}
