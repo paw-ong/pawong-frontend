@@ -17,7 +17,7 @@ function MainPage() {
           <div className="main-move-btns" style={{ display: 'flex', gap: 16, justifyContent: 'center', marginTop: 32 }}>
             <button
                 className="move-btn-vertical"
-                onClick={() => navigate('/adoption')}
+                onClick={() => navigate('/adoptions')}
                 type="button"
             >
               <img src={Adoption} alt="입양동물" className="move-btn-img" />
