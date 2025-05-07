@@ -123,7 +123,7 @@ function AdoptionResultList({ isSearch, searchResults, loading }) {
       <div className="adoption-result-grid">
         {pets.map((item, index) => (
           <div 
-            key={item.adoptionId} 
+            key={`${item.adoptionId}-${index}`} 
             ref={index === pets.length - 1 ? lastPetElementRef : null}
             className="adoption-result-item"
           >
