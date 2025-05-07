@@ -163,7 +163,7 @@ function AdoptionRecommendList() {
         <Slider {...settings}>
           {pets.map(pet => (
               <div key={pet.adoptionId}>
-                <PetCard pet={formatPetData(pet)} type="adoption"/>
+                <PetCard pet={formatPetData(pet)} type="adoptions"/>
               </div>
           ))}
         </Slider>

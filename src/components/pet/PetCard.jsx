@@ -12,10 +12,10 @@ const API_BASE_URL = '';  // 빈 문자열로 설정하면 현재 호스트로 �
 function PetCard({ pet, type }) {
   const [isFavorite, setIsFavorite] = useState(false);
 
-  // 디버깅을 위해 pet 객체를 콘솔에 출력
-  useEffect(() => {
-    console.log('PetCard에 전달된 pet:', pet);
-  }, [pet]);
+  // // 디버깅을 위해 pet 객체를 콘솔에 출력
+  // useEffect(() => {
+  //   // console.log('PetCard에 전달된 pet:', pet);
+  // }, [pet]);
 
   useEffect(() => {
     const userToken = localStorage.getItem('userToken');
@@ -23,10 +23,10 @@ function PetCard({ pet, type }) {
     // 로그인 상태에서만 찜 상태 확인
     if (userToken && pet.id) {
       // 초기 찜 상태 확인 API 호출
-      console.log(`찜 상태 확인 API 호출: /api/users/me/favorites/${pet.id}/status`);
+      // console.log(`찜 상태 확인 API 호출: /api/users/me/favorites/${pet.id}/status`);
       client.get(`/users/me/favorites/${pet.id}/status`)
       .then(response => {
-        console.log('찜 상태 응답:', response);
+        // console.log('찜 상태 응답:', response);
         setIsFavorite(response.data.inFavorites);
       })
       .catch(error => console.error('찜 상태 확인 실패: ', error));

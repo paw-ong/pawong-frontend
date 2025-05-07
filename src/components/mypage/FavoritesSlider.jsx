@@ -29,7 +29,7 @@ function FavoritesSlider() {
 
       try {
         const { data } = await client.get('/users/me/favorites')
-        console.log('찜 목록 응답:', data);
+        // console.log('찜 목록 응답:', data);
         setFavorites(data.favoritesList || []);
       } catch (error) {
         console.error('찜 목록 로딩 중 오류 발생:', error);

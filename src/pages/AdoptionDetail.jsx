@@ -18,6 +18,8 @@ function AdoptionDetail() {
     const fetchAdoptionData = async () => {
       try {
         const response = await client.get(`/adoptions/${id}`);
+        console.log(response); // 전체 응답 확인
+        console.log(response.data); // 실제 데이터 확인
         setAdoptionData(response.data);
       } catch (error) {
         console.error('Error fetching adoption data:', error);

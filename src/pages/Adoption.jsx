@@ -32,11 +32,11 @@ function Adoption() {
         params.addresses.forEach((address) => urlParams.append("regions", address));
       }
       const url = `/adoptions/search?${urlParams.toString()}`;
-      const res = await client.get(url);
+      const { data } = await client.get(url);
       
 
-      if (!res.ok) throw new Error("검색 실패");
-      const data = await res.json();
+      // if (!res.ok) throw new Error("검색 실패");
+      // const data = await res.json();
       
       // 검색 결과 설정
       setSearchResults(data);
