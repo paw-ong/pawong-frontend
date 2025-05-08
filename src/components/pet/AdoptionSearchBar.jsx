@@ -139,10 +139,6 @@ function AdoptionSearchBar({ onSearch }) {
 
   // 검색 버튼 클릭 시
   const handleSearch = () => {
-    if (selectedKinds.length === 0) {
-      alert("품종을 한 개 이상 선택해주세요.");
-      return;
-    }
 
     // 선택된 주소를 문자열 배열로 변환
     const addressStrings = selectedAddresses.map(addr => {
