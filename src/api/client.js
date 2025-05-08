@@ -1,5 +1,5 @@
 // src/api/client.js
-import axios from 'axios';
+import axios, {AxiosError} from 'axios';
 
 const client = axios.create({
     baseURL: 'http://localhost/api', // spring backend 주소
@@ -17,5 +17,31 @@ client.interceptors.request.use(config => {
     }
     return config;
 }, error => Promise.reject(error));
+
+// 응답 에러 처리
+client.interceptors.response.use(
+    // 성공적인 응답 처리
+    response => ({
+        status: response.status,
+        data: response.data
+      }),
+    // 에러 응답 처리
+    error => {
+        if (error.response && error.response.data) {
+            return Promise.reject({
+                status: error.response.status,
+                code: error.response.data.code,
+                message: error.response.data.message
+              });
+        }
+        // 네트워크 오류 등
+        return Promise.reject({
+          status: null,
+          code: 'NETWORK_ERROR',
+          message: error.message
+        });
+      }
+);
+
 
 export default client;
