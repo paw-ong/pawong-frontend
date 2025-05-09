@@ -33,7 +33,12 @@ export function AuthProvider({ children }) {
           setIsRegistered(true)
           localStorage.setItem('userInfo', JSON.stringify(res.data))
         })
-        .catch(() => {
+        .catch((err) => {
+          const { status, code } = err
+          if (status === 404 && code === 'USER_NOT_FOUND') {
+            alert('존재하지 않는 회원에 대한 접근입니다.')
+            navigate('/login')
+          }
           localStorage.removeItem('userToken')
           localStorage.removeItem('status')
           localStorage.removeItem('userInfo')
